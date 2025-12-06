@@ -24,3 +24,9 @@ class Database:
             return True  # 註冊成功
         except sqlite3.IntegrityError:
             return False  # 使用者名稱已存在
+    def check_user(self, username, password):
+        self.cursor.execute(
+        "SELECT * FROM users WHERE username=? AND password=?",
+        (username, password)
+        )
+        return self.cursor.fetchone()

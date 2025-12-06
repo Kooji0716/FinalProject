@@ -6,30 +6,39 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
+    <!-- 頂部黑底白字橫條 -->
     <header>
-        <h1><a href="{{ url_for('index') }}">MovieHub 電影討論平台</a></h1>
-        <nav>
-            <a href="{{ url_for('index') }}">首頁</a> |
-            <a href="{{ url_for('register') }}">註冊</a>
-        </nav>
-        <hr>
+        MOVIEHUB
     </header>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li style="color: red;">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    <!-- 左側 sidebar -->
+    <div class="sidebar">
+        <a href="{{ url_for('login') }}">
+            <img src="{{ url_for('static', filename='avatar.png') }}" alt="Avatar" class="avatar">
+        </a>
+        <div class="category">
+            {% if session.get('username') %}
+                {{ session['username'] }}
+            {% else %}
+                 訪客
+            {% endif %}
+        </div>
 
-    {% block content %}{% endblock %}
+        <a href="#" class="category">愛情片</a>
+        <a href="#" class="category">恐怖片</a>
+        <a href="#" class="category">喜劇片</a>
+        <a href="#" class="category">科幻片</a>
+        <a href="#" class="category">動漫</a>
+    </div>
 
-    <footer>
-        <hr>
-        <p>&copy; 2025 MovieHub. All rights reserved.</p>
-    </footer>
+    <!-- 主內容 -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+
+        <footer>
+            <p>&copy; 2025 MovieHub. Made By KOOJI.</p>
+        </footer>
+    </div>
 </body>
 </html>

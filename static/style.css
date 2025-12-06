@@ -1,30 +1,83 @@
+/* 整體設定 */
 body {
     font-family: sans-serif;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
     background-color: #fdfdfd;
     color: #333;
 }
 
+/* 頂部橫條 header，固定在畫面最上方 */
 header {
-    background-color: #202020;
-    color: white;
+    background-color: #000;  /* 黑底 */
+    color: white;            /* 白字 */
+    padding: 20px 40px;
+    font-size: 28px;
+    font-weight: bold;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+
+/* 左側 sidebar，固定寬度，從 header 下方開始 */
+.sidebar {
+    position: fixed;
+    top: 80px; /* 與 header 高度一致 */
+    left: 0;
+    width: 150px;
+    background-color: #f4f4f4;
+    height: calc(100vh - 80px);
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+
+/* 頭像圖片樣式 */
+.avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+/* 類別按鈕 */
+.category {
+    display: block;
+    background-color: #fffde7;
+    margin: 10px 0;
     padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-left: 5px solid transparent;
+    transition: 0.3s;
+}
+.category:hover {
+    background-color: #fff8dc;
+    border-left: 5px solid #ffcc00;
+    cursor: pointer;
 }
 
-header h1, header nav {
-    display: inline-block;
-    margin-right: 20px;
+/* 主內容區域（記得要避開 header + sidebar） */
+.main-content {
+    margin-left: 170px;  /* sidebar 寬度 + margin */
+    padding: 100px 40px 40px; /* header 高度 + 上下內距 */
 }
 
+/* 超連結樣式 */
 a {
     color: #1a73e8;
     text-decoration: none;
 }
 
+/* 頁尾 */
 footer {
-    margin-top: 40px;
+    margin-top: 60px;
     font-size: 0.9em;
     color: #666;
     border-top: 1px solid #ccc;
     padding-top: 10px;
 }
+
