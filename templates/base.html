@@ -17,7 +17,7 @@
     <a href="{{ url_for('login') }}">
         <img src="{{ url_for('static', filename='avatar.png') }}" alt="Avatar" class="avatar">
     </a>
-    <div class="category">
+    <div class="username-label">
         {% if session.get('username') %}
             {{ session['username'] }}
         {% else %}
@@ -26,11 +26,12 @@
     </div>
 
     <!-- 電影分類 -->
-    <a href="#" class="category">愛情片</a>
+    <a href="#" class="category">近期熱門</a>
     <a href="#" class="category">恐怖片</a>
     <a href="#" class="category">喜劇片</a>
     <a href="#" class="category">科幻片</a>
-    <a href="#" class="category">動漫</a>
+    <a href="#" class="category">愛情片</a>
+    <a href="#" class="category">奇幻類型</a>
 
     <!-- 登出按鈕區塊 -->
     {% if session.get('username') %}
