@@ -1,10 +1,145 @@
-<!-- templates/index.html -->
 {% extends "base.html" %}
 {% block content %}
-    <h2>歡迎來到 MovieHub</h2>
+    <h1>歡迎來到 MovieHub</h1>
     <p>這是一個以電影分類為主題的部落格式討論平台。</p>
 
+    <!--<h2>近期熱門電影</h2>-->
     
+    <!--橫向導覽列(近期熱門電影)-->
+    <h2 class="section-title">
+        近期熱門電影 
+        <div class="arrow-controls">
+            <span class="arrow left" onclick="scrollSlider(-1)">◀</span>
+            <span class="arrow right" onclick="scrollSlider(1)">▶</span>
+        </div>
+    </h2>   
 
-    <!-- 未來可以加上電影分類區塊、近期電影文章等 -->
+    <div class="movie-slider">
+        <div class="movie-track">
+
+        <div class="movie-item">   
+            <img src="{{ url_for('static', filename='movies/avatar3.jpg') }}" alt="阿凡達：火與燼">
+            <p>阿凡達：火與燼</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/zootopia2.jpg') }}" alt="動物方程式2">
+            <p>動物方程式2</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/bugonia.jpg') }}" alt="暴蜂尼亞">
+            <p>暴蜂尼亞</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/strangerthings.jpg') }}" alt="怪奇物語">
+            <p>怪奇物語</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/wickedforgood.jpg') }}" alt="魔法壞女巫：第二部">
+            <p>魔法壞女巫：第二部</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/nowUseeme3.jpg') }}" alt="出神入化3">
+            <p>出神入化3</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/predatorbadlands.jpg') }}" alt="終極戰士：殺戮星球">
+            <p>終極戰士：殺戮星球</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/niwawa.jpg') }}" alt="泥娃娃">
+            <p>泥娃娃</p>
+        </div>
+            <!-- 加更多 -->
+        </div>
+    </div>
+
+    <script>
+    function scrollSlider(direction) {
+        const slider = document.querySelector('.movie-slider');
+        const scrollAmount = 350; // 每次滑動距離，可自行調整
+        slider.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+    </script>
+
+
+
+    <!--其他-->
+    <h2>其他電影</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/thesubstance.jpg') }}" alt="懼裂">
+            <p>懼裂</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/Dune part2.jpg') }}" alt="沙丘:第二章">
+            <p>沙丘:第二章</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/GOT.jpg') }}" alt="冰與火之歌:權力遊戲">
+            <p>冰與火之歌:權力遊戲</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/interstellar.jpg') }}" alt="星際效應">
+            <p>星際效應</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/modernfamily.jpg') }}" alt="摩登家庭">
+            <p>摩登家庭</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/HIMYM.jpg') }}" alt="追愛總動員">
+            <p>追愛總動員</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/scarystories.jpg') }}" alt="在黑暗中說的鬼故事">
+            <p>在黑暗中說的鬼故事</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/ladybird.jpg') }}" alt="淑女鳥">
+            <p>淑女鳥</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/GOT.jpg') }}" alt="冰與火之歌:權力遊戲">
+            <p>冰與火之歌:權力遊戲</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/pitchperfect.jpg') }}" alt="歌喉讚">
+            <p>歌喉讚</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/weapons.jpg') }}" alt="凶器">
+            <p>凶器</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/constantine.jpg') }}" alt="康斯坦汀：驅魔神探">
+            <p>康斯坦汀：驅魔神探</p>
+        </div>
+
+
+        <!-- 加更多電影項目 -->
+    </div>
 {% endblock %}
