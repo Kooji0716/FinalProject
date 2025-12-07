@@ -4,7 +4,7 @@ from database import Database
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
-db = Database()  # ← 全部資料庫操作只用這個
+db = Database()  #資料庫處理
 
 @app.route("/")
 def index():
@@ -17,35 +17,60 @@ def register():
         password = request.form.get("password")
 
         if db.add_user(username, password):
-            flash("註冊成功！")
-            return redirect(url_for("index"))
+            # 註冊成功
+            return '''
+                <script>
+                    alert("註冊成功！");
+                    window.location.href = "/login";
+                </script>
+            '''
         else:
-            flash("使用者名稱已存在！")
+            # 使用者名稱重複
+            return '''
+                <script>
+                    alert("使用者名稱已經存在，請重新輸入");
+                    window.location.href = "/register";
+                </script>
+            '''
 
     return render_template("register.html")
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
 
-        user = db.check_user(username, password)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = db.get_user_by_username(username)
 
         if user:
-            session["username"] = username
+            if user['password'] == password:
+                session['username'] = username
+                return '''
+                    <script>
+                        alert("登入成功！");
+                        window.location.href = "/";
+                    </script>
+                '''
+            else:
+                return '''
+                    <script>
+                        alert("密碼錯誤，請確認後重新輸入！");
+                        window.location.href = "/login";
+                    </script>
+                '''
+        else:
             return '''
                 <script>
-                    alert("登入成功！");
-                    window.location.href = "/";
+                    alert("查無此帳號，請確認後重新輸入！");
+                    window.location.href = "/login";
                 </script>
             '''
-        else:
-            flash("登入失敗：帳號或密碼錯誤")
-            return redirect(url_for("login"))
+    return render_template('login.html')
 
-    return render_template("login.html")
 
 
 @app.route("/logout")
