@@ -12,25 +12,34 @@
         MOVIEHUB
     </header>
 
-    <!-- 左側 sidebar -->
-    <div class="sidebar">
-        <a href="{{ url_for('login') }}">
-            <img src="{{ url_for('static', filename='avatar.png') }}" alt="Avatar" class="avatar">
-        </a>
-        <div class="category">
-            {% if session.get('username') %}
-                {{ session['username'] }}
-            {% else %}
-                 訪客
-            {% endif %}
-        </div>
-
-        <a href="#" class="category">愛情片</a>
-        <a href="#" class="category">恐怖片</a>
-        <a href="#" class="category">喜劇片</a>
-        <a href="#" class="category">科幻片</a>
-        <a href="#" class="category">動漫</a>
+<!-- 左側 sidebar -->
+<div class="sidebar">
+    <a href="{{ url_for('login') }}">
+        <img src="{{ url_for('static', filename='avatar.png') }}" alt="Avatar" class="avatar">
+    </a>
+    <div class="category">
+        {% if session.get('username') %}
+            {{ session['username'] }}
+        {% else %}
+            訪客
+        {% endif %}
     </div>
+
+    <!-- 電影分類 -->
+    <a href="#" class="category">愛情片</a>
+    <a href="#" class="category">恐怖片</a>
+    <a href="#" class="category">喜劇片</a>
+    <a href="#" class="category">科幻片</a>
+    <a href="#" class="category">動漫</a>
+
+    <!-- 登出按鈕區塊 -->
+    {% if session.get('username') %}
+        <div class="logout-section">
+            <a href="{{ url_for('logout') }}" class="logout-btn">🚪 登出</a>
+        </div>
+    {% endif %}
+</div>
+
 
     <!-- 主內容 -->
     <div class="main-content">

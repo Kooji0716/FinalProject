@@ -81,3 +81,27 @@ footer {
     padding-top: 10px;
 }
 
+/* 登出按鈕區塊固定在 sidebar 最下方 */
+.logout-section {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    width: calc(100% - 20px);
+}
+
+/* 登出按鈕樣式 */
+.logout-btn {
+    display: block;
+    background-color: #ffecec;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-left: 5px solid transparent;
+    transition: 0.3s;
+}
+.logout-btn:hover {
+    background-color: #ffd6d6;
+    border-left: 5px solid #ff4444;
+    cursor: pointer;
+}
