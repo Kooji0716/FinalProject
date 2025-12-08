@@ -106,6 +106,16 @@ def fantasy():
 def life():
     return render_template("life.html")
 
+#電影詳系頁面
+
+#權力遊戲路由
+@app.route('/got')
+def got():
+    return render_template('GOT.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

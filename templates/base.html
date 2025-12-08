@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>MovieHub 電影討論平台</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!--為了讓「某些頁面可以多加自己專屬的 CSS」，而「其他頁面又不要有這些額外 CSS」要「預留一個插槽」-->
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
