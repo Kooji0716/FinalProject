@@ -6,10 +6,6 @@ app.secret_key = "your_secret_key"
 
 db = Database()  #資料庫處理
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -78,6 +74,37 @@ def logout():
     session.pop("username", None)
     flash("已登出")
     return redirect(url_for("index"))
+
+#首頁路由
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+#各分頁路由
+#恐怖片
+@app.route("/horror")
+def horror():
+    return render_template("horror.html")
+#喜劇
+@app.route("/comedy")
+def comedy():
+    return render_template("comedy.html")
+#科幻片
+@app.route("/scifi")
+def scifi():
+    return render_template("scifi.html")
+#愛情片
+@app.route("/romance")
+def romance():
+    return render_template("romance.html")
+#奇幻類
+@app.route("/fantasy")
+def fantasy():
+    return render_template("fantasy.html")
+#人生成長
+@app.route("/life")
+def life():
+    return render_template("life.html")
 
 
 if __name__ == "__main__":

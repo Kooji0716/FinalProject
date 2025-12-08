@@ -26,13 +26,13 @@
     </div>
 
     <!-- 電影分類 -->
-    <a href="#" class="category">首頁</a>
-    <a href="#" class="category">恐怖片</a>
-    <a href="#" class="category">喜劇片</a>
-    <a href="#" class="category">科幻片</a>
-    <a href="#" class="category">愛情片</a>
-    <a href="#" class="category">奇幻類型</a>
-
+    <a href="{{ url_for('index') }}" class="category">首頁</a>
+    <a href="{{ url_for('horror') }}"class="category" >恐怖片</a>
+    <a href="{{ url_for('comedy') }}"class="category" >喜劇片</a>
+    <a href="{{ url_for('scifi') }}"class="category">科幻片</a>
+    <a href="{{ url_for('romance') }}"class="category">愛情片</a>
+    <a href="{{ url_for('fantasy') }}"class="category">奇幻類型</a>
+    <a href="{{ url_for('life') }}"class="category">人生成長</a>
     <!-- 登出按鈕區塊 -->
     {% if session.get('username') %}
         <div class="logout-section">
