@@ -6,7 +6,7 @@ class Database:
         self.conn.row_factory = sqlite3.Row  
         self.cursor = self.conn.cursor()
         self.init_tables()
-
+    #建立users的資料表、username TEXT NOT NULL UNIQUE不能為空且唯一（避免重複帳號）
     def init_tables(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -24,11 +24,11 @@ class Database:
             return True
         except sqlite3.IntegrityError:
             return False
-    #檢查登入的帳密是否正確
+    #檢查登入的帳密是否正確,用來處理登入驗證
     def check_user(self, username, password):
         self.cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
         return self.cursor.fetchone()
-    #用帳號查詢使用者，為了檢查有沒有重複的帳號
+    #用帳號查詢使用者是否已經存在，為了檢查有沒有重複的帳號
     def get_user_by_username(self, username):
         self.cursor.execute("SELECT * FROM users WHERE username=?", (username,))
         return self.cursor.fetchone()
