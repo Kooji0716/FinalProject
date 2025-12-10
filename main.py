@@ -110,9 +110,30 @@ def life():
 #電影詳系頁面
 
 #權力遊戲路由
-@app.route('/got')
-def got():
+#@app.route('/got')
+#def got():
     return render_template('GOT.html')
+
+#留言功能
+@app.route('/got', methods=['GET', 'POST'])
+def got():
+    if request.method == 'POST':
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("尚未登入，登入後即可留言！");
+                    window.location.href = "/login";
+                </script>
+            '''
+        username = session['username']
+        comment = request.form.get('comment')
+        if comment:
+            db.add_comment('got', username, comment)
+        return redirect(url_for('got'))
+
+    comments = db.get_comments('got')
+    return render_template('GOT.html', comments=comments)
+
 
 
 

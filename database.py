@@ -1,13 +1,16 @@
 import sqlite3
 
+
 class Database:
     def __init__(self, db_path="users.db"):
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row  
+        self.conn.row_factory = sqlite3.Row   # 讓資料可以用 dict 方式存取
         self.cursor = self.conn.cursor()
         self.init_tables()
-    #建立users的資料表、username TEXT NOT NULL UNIQUE不能為空且唯一（避免重複帳號）
+
+    # 初始化資料表
     def init_tables(self):
+        # 使用者資料表
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,20 +18,63 @@ class Database:
                 password TEXT NOT NULL
             )
         ''')
+
+        # 留言資料表（電影詳細頁使用）
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                movie_id TEXT NOT NULL,
+                username TEXT NOT NULL,
+                comment TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
         self.conn.commit()
-    #註冊用戶
+
+    # ========== 使用者相關 ==========
+    # 註冊新使用者
     def add_user(self, username, password):
         try:
-            self.cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+            self.cursor.execute(
+                'INSERT INTO users (username, password) VALUES (?, ?)',
+                (username, password)
+            )
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
+            # username 重複（因為 UNIQUE 限制）
             return False
-    #檢查登入的帳密是否正確,用來處理登入驗證
+
+    # 直接檢查帳號密碼（登入用）
     def check_user(self, username, password):
-        self.cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+        self.cursor.execute(
+            'SELECT * FROM users WHERE username=? AND password=?',
+            (username, password)
+        )
         return self.cursor.fetchone()
-    #用帳號查詢使用者是否已經存在，為了檢查有沒有重複的帳號
+
+    # 只用帳號搜尋（判斷帳號是否存在）
     def get_user_by_username(self, username):
-        self.cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        self.cursor.execute(
+            'SELECT * FROM users WHERE username=?',
+            (username,)
+        )
         return self.cursor.fetchone()
+
+    # ========== 留言相關 ==========
+    # 新增留言
+    def add_comment(self, movie_id, username, comment):
+        self.cursor.execute(
+            'INSERT INTO comments (movie_id, username, comment) VALUES (?, ?, ?)',
+            (movie_id, username, comment)
+        )
+        self.conn.commit()
+
+    # 取得某部電影的所有留言
+    def get_comments(self, movie_id):
+        self.cursor.execute(
+            'SELECT * FROM comments WHERE movie_id = ? ORDER BY timestamp DESC',
+            (movie_id,)
+        )
+        return self.cursor.fetchall()

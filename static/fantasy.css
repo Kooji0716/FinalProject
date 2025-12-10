@@ -35,3 +35,22 @@
     padding-top: 20px;
     border-top: 1px solid #ccc;
 }
+
+
+.got-comments {
+    margin-top: 40px;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.comment-list li {
+    background-color: #f0f0f0;
+    padding: 10px 15px;
+    border-left: 4px solid #444;
+    margin-bottom: 12px;
+    border-radius: 5px;
+}
