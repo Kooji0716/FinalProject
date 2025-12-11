@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>登入 MovieHub</h2>
+<form action="{{ url_for('login') }}" method="post">
+    <label for="username">使用者名稱：</label>
+    <input type="text" id="username" name="username" required><br><br>
+    <label for="password">密碼：</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <button type="submit">登入</button>
+</form>
+
+<p><a href="{{ url_for('register') }}">👉 點我註冊帳號</a></p>
+{% endblock %}

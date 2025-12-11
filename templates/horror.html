@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>恐怖系列 好可怕喔喔喔喔</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/niwawa.jpg') }}" alt="泥娃娃">
+            <p>泥娃娃</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/scarystories.jpg') }}" alt="在黑暗中說的鬼故事">
+            <p>在黑暗中說的鬼故事</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/weapons.jpg') }}" alt="凶器">
+            <p>凶器</p>
+        </div>
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}

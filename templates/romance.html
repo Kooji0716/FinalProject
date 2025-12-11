@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>愛情系列</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/abouttime.jpg') }}" alt="真愛每一天">
+            <p>真愛每一天</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/lalaland.jpg') }}" alt="樂來樂愛你">
+            <p>樂來樂愛你</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/HIMYM.jpg') }}" alt="追愛總動員">
+            <p>追愛總動員</p>
+        </div>
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>人生成長</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/ladybird.jpg') }}" alt="淑女鳥">
+            <p>淑女鳥</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/theblindside.jpg') }}" alt="攻其不備">
+            <p>攻其不備</p>
+        </div>
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}

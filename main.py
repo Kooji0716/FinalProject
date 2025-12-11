@@ -113,8 +113,7 @@ def life():
 #@app.route('/got')
 #def got():
     return render_template('GOT.html')
-
-#留言功能
+#留言功能的電影詳細頁面
 @app.route('/got', methods=['GET', 'POST'])
 def got():
     if request.method == 'POST':
@@ -138,6 +137,7 @@ def got():
 
 
 if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
     app.run(debug=True)
 
 

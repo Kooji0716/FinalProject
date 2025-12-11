@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>喜劇類 哈哈哈哈哈哈哈哈哈哈哈</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/modernfamily.jpg') }}" alt="摩登家庭">
+            <p>摩登家庭</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/HIMYM.jpg') }}" alt="追愛總動員">
+            <p>追愛總動員</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/brooklyn99.jpg') }}" alt="荒唐分局">
+            <p>荒唐分局</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/pitchperfect.jpg') }}" alt="歌喉讚">
+            <p>歌喉讚</p>
+        </div>
+        
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}

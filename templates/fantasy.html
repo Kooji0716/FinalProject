@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>奇幻系列</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/Dune part2.jpg') }}" alt="沙丘:第二章">
+            <p>沙丘:第二章</p>
+        </div>
+
+        <div class="movie-item">
+            <a href="{{ url_for('got') }}">
+                <img src="{{ url_for('static', filename='movies/GOT.jpg') }}" alt="冰與火之歌：權力遊戲">
+            </a>
+            <p>冰與火之歌：權力遊戲</p>
+        </div>      
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/wickedforgood.jpg') }}" alt="魔法壞女巫：第二部">
+            <p>魔法壞女巫：第二部</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/zootopia2.jpg') }}" alt="動物方程式2">
+            <p>動物方程式2</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/constantine.jpg') }}" alt="康斯坦汀：驅魔神探">
+            <p>康斯坦汀：驅魔神探</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/strangerthings.jpg') }}" alt="怪奇物語">
+            <p>怪奇物語</p>
+        </div>
+
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}

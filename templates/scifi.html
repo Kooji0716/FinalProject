@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--其他-->
+    <h2>科幻系列喔喔喔喔</h2>
+    <!--這邊加入電影照片-->
+    <div class="movie-grid">
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/Dune part2.jpg') }}" alt="沙丘:第二章">
+            <p>沙丘:第二章</p>
+        </div>
+        
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/interstellar.jpg') }}" alt="星際效應">
+            <p>星際效應</p>
+        </div>
+
+        <div class="movie-item">   
+            <img src="{{ url_for('static', filename='movies/avatar3.jpg') }}" alt="阿凡達：火與燼">
+            <p>阿凡達：火與燼</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/predatorbadlands.jpg') }}" alt="終極戰士：殺戮星球">
+            <p>終極戰士：殺戮星球</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/thesubstance.jpg') }}" alt="懼裂">
+            <p>懼裂</p>
+        </div>
+
+        <div class="movie-item">
+            <img src="{{ url_for('static', filename='movies/bugonia.jpg') }}" alt="暴蜂尼亞">
+            <p>暴蜂尼亞</p>
+        </div>
+
+        <!-- 加更多電影項目 -->
+    </div>
+{% endblock %}
