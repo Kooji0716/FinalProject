@@ -102,6 +102,35 @@ def fantasy():
 def life():
     return render_template("life.html")
 
+# ======================
+# 社群頁面
+# ======================
+@app.route("/community", methods=["GET", "POST"])
+def community():
+    if request.method == "POST":
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("尚未登入，登入後才能發文！");
+                    window.location.href = "/login";
+                </script>
+            '''
+
+        title = request.form.get("title")
+        content = request.form.get("content")
+
+        if title and content:
+            db.add_community_post(
+                session['username'],
+                title,
+                content
+            )
+
+        return redirect(url_for("community"))
+
+    posts = db.get_all_community_posts()
+    return render_template("community.html", posts=posts)
+
 
 # ======================
 # 電影詳細頁：權力遊戲 + 留言

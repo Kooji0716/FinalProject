@@ -41,6 +41,17 @@ class Database:
                 UNIQUE (movie_id, username)
             )
         ''')
+        
+        #社群貼文
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS community_posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
         self.conn.commit()
 
@@ -109,3 +120,18 @@ class Database:
         if row['avg_rating'] is None:
             return None
         return round(row['avg_rating'], 1)
+    
+    #操作貼文的涵式
+    def add_community_post(self, username, title, content):
+        self.cursor.execute(
+            'INSERT INTO community_posts (username, title, content) VALUES (?, ?, ?)',
+            (username, title, content)
+        )
+        self.conn.commit()
+
+    def get_all_community_posts(self):
+        self.cursor.execute(
+            'SELECT * FROM community_posts ORDER BY timestamp DESC'
+        )
+        return self.cursor.fetchall()
+

@@ -35,6 +35,8 @@
     <a href="{{ url_for('romance') }}"class="category">愛情片</a>
     <a href="{{ url_for('fantasy') }}"class="category">奇幻類型</a>
     <a href="{{ url_for('life') }}"class="category">人生成長</a>
+    <a href="{{ url_for('community') }}" class="category">社群</a>
+
     <!-- 登出按鈕區塊 -->
     {% if session.get('username') %}
         <div class="logout-section">
@@ -52,7 +54,7 @@
             <p>&copy; 2025 MovieHub. Made By KOOJI.</p>
         </footer>
     </div>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
