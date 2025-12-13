@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="got-container">
+
+    <!-- 貼文主體 -->
+    <div class="comment-item" style="margin-bottom: 30px;">
+        <h2>{{ post['title'] }}</h2>
+        <pre style="font-family: monospace; white-space: pre-wrap; margin-bottom: 5px;">
+{{- post['content'] -}}
+        </pre>
+        <small>👤 {{ post['username'] }} ｜ {{ post['timestamp'] }}</small>
+    </div>
+
+    <!-- 留言區 -->
+    <h3>💬 留言區</h3>
+    {% for comment in comments %}
+        <div class="comment-item" style="margin-bottom: 15px;">
+            <pre style="font-family: monospace; white-space: pre-wrap; margin-bottom: 5px;">
+{{- comment['comment'] -}}
+            </pre>
+            <small>👤 {{ comment['username'] }} ｜ {{ comment['timestamp'] }}</small>
+        </div>
+    {% else %}
+        <p>目前還沒有留言，成為第一個留言的人吧！</p>
+    {% endfor %}
+
+    <!-- 新增留言 -->
+    {% if session.get('username') %}
+        <form method="POST" style="margin-top: 20px;">
+            <textarea
+                name="comment"
+                rows="4"
+                placeholder="寫下你的留言..."
+                required
+                style="width: 100%; padding: 10px;"
+            ></textarea>
+            <button type="submit" style="margin-top: 10px;">留言</button>
+        </form>
+    {% else %}
+        <p style="color:red; font-weight:bold;">
+            尚未登入，<a href="{{ url_for('login') }}">登入後即可留言</a>
+        </p>
+    {% endif %}
+
+</div>
+{% endblock %}

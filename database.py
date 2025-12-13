@@ -52,6 +52,16 @@ class Database:
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        # 社群貼文留言資料表（每篇文章可以有很多留言）
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS community_comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            post_id INTEGER NOT NULL,
+            username TEXT NOT NULL,
+            comment TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
         self.conn.commit()
 
@@ -95,6 +105,25 @@ class Database:
             (movie_id,)
         )
         return self.cursor.fetchall()
+    
+        # 新增社群留言功能
+    def add_community_comment(self, post_id, username, comment):
+        self.cursor.execute(
+            'INSERT INTO community_comments (post_id, username, comment) VALUES (?, ?, ?)',
+            (post_id, username, comment)
+        )
+        self.conn.commit()
+
+    # 根據貼文 ID 取得所有留言
+    def get_community_comments(self, post_id):
+        self.cursor.execute(
+            'SELECT * FROM community_comments WHERE post_id = ? ORDER BY timestamp ASC',
+            (post_id,)
+        )
+        return self.cursor.fetchall()
+
+    
+    
 
     # ================== 評分相關 ==================
     # 新增或更新評分（同一使用者對同一電影只會有一筆）

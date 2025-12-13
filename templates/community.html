@@ -8,6 +8,7 @@
     <!-- 發文區 -->
     {% if session.get('username') %}
         <form method="POST" style="margin-bottom: 30px;">
+            <!-- 標題 -->
             <input
                 type="text"
                 name="title"
@@ -15,6 +16,8 @@
                 required
                 style="width: 100%; padding: 10px; margin-bottom: 10px;"
             >
+
+            <!-- 內容 -->
             <textarea
                 name="content"
                 rows="5"
@@ -22,7 +25,10 @@
                 required
                 style="width: 100%; padding: 10px;"
             ></textarea>
-            <button type="submit" style="margin-top: 10px;">發表貼文</button>
+
+            <button type="submit" style="margin-top: 10px;">
+                發表貼文
+            </button>
         </form>
     {% else %}
         <p style="color:red; font-weight:bold;">
@@ -30,14 +36,23 @@
         </p>
     {% endif %}
 
+    <hr>
+
     <!-- 貼文列表 -->
     {% for post in posts %}
-        <div class="comment-item" style="margin-bottom: 20px;">
+        <div class="comment-item" style="margin-bottom: 30px;">
             <h3>{{ post['title'] }}</h3>
-            <p>{{ post['content'] }}</p>
-            <small>
+
+            <!-- ✅ 顯示前 200 字，保留空白與換行 -->
+            <pre style="font-family: monospace; white-space: pre-wrap; margin-bottom: 10px;">{{- post['content'][:200] -}}{% if post['content']|length > 200 %}...{% endif %}</pre>
+
+            <small style="color: #555;">
                 👤 {{ post['username'] }} ｜ {{ post['timestamp'] }}
             </small>
+            <br>
+            <a href="{{ url_for('community_post', post_id=post['id']) }}">
+                👉 查看留言與回覆
+            </a>
         </div>
     {% else %}
         <p>目前還沒有貼文，成為第一個發文的人吧！</p>

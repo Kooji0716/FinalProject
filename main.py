@@ -131,6 +131,49 @@ def community():
     posts = db.get_all_community_posts()
     return render_template("community.html", posts=posts)
 
+# ======================
+# 社群貼文詳細頁（含留言）
+# ======================
+@app.route("/community/post/<int:post_id>", methods=["GET", "POST"])
+def community_post(post_id):
+
+    # 取得該篇貼文
+    post = None
+    posts = db.get_all_community_posts()
+    for p in posts:
+        if p["id"] == post_id:
+            post = p
+            break
+
+    if not post:
+        return "<h2>找不到此貼文</h2>"
+
+    # 新增留言
+    if request.method == "POST":
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("請先登入才能留言！");
+                    window.location.href = "/login";
+                </script>
+            '''
+
+        comment = request.form.get("comment")
+        if comment:
+            db.add_community_comment(
+                post_id,
+                session["username"],
+                comment
+            )
+
+        return redirect(url_for("community_post", post_id=post_id))
+
+    # 取得該貼文的所有留言
+    comments = db.get_community_comments(post_id)
+
+    return render_template(
+        "community_post.html",post=post, comments=comments)
+
 
 # ======================
 # 電影詳細頁：權力遊戲 + 留言
