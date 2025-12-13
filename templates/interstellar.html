@@ -23,24 +23,23 @@
 {% block content %}
 <div class="got-container">
 
-    <h1 class="got-title">冰與火之歌：權力遊戲</h1>
+    <h1 class="got-title">星際效應 (Interstellar)</h1>
 
     <!-- 上半部：海報 + 資訊 -->
     <div class="got-main">
         <img class="got-poster"
-             src="{{ url_for('static', filename='movies/GOT.jpg') }}"
-             alt="冰與火之歌：權力遊戲">
+             src="{{ url_for('static', filename='movies/interstellar.jpg') }}"
+             alt="星際效應">
 
         <div class="got-details">
-            <p><strong>類型：</strong>奇幻 / 劇情 / 冒險</p>
-            <p><strong>年份：</strong>2011 - 2019</p>
-            <p><strong>導演：</strong>David Benioff, D. B. Weiss</p>
-            <p><strong>主演：</strong>Kit Harington, Emilia Clarke, Peter Dinklage 等</p>
+            <p><strong>類型：</strong>科幻 / 冒險 / 劇情</p>
+            <p><strong>年份：</strong>2014</p>
+            <p><strong>導演：</strong>Christopher Nolan</p>
+            <p><strong>主演：</strong>Matthew McConaughey, Anne Hathaway, Jessica Chastain 等</p>
             <p><strong>簡介：</strong></p>
             <p>
-                《冰與火之歌：權力遊戲》改編自喬治·R·R·馬丁的奇幻小說《冰與火之歌》，
-                描述維斯特洛大陸上幾大家族間的權力鬥爭、政治陰謀與魔法再臨，
-                展現了人性、忠誠與背叛的深刻交織。
+                《星際效應》講述地球瀕臨滅亡的未來，一群科學家與太空人穿越蟲洞，尋找人類新家園的旅程。
+                電影融合了量子物理、黑洞、引力時間膨脹等深奧概念，也描繪了父女間深刻的情感連結。
             </p>
         </div>
     </div>
@@ -78,7 +77,7 @@
 
         {% if session.get('username') %}
             <form method="POST" class="comment-form">
-                <textarea name="comment" rows="4" style="width: 100%;" placeholder="歡迎留下你對這部影集的看法！" required></textarea>
+                <textarea name="comment" rows="4" style="width: 100%;" placeholder="歡迎留下你對這部電影的看法！" required></textarea>
                 <button type="submit">送出留言</button>
             </form>
         {% else %}

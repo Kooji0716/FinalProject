@@ -8,7 +8,7 @@ class Database:
         self.cursor = self.conn.cursor()
         self.init_tables()
 
-    # 初始化資料表
+    # ================== 初始化資料表 ==================
     def init_tables(self):
         # 使用者資料表
         self.cursor.execute('''
@@ -19,7 +19,7 @@ class Database:
             )
         ''')
 
-        # 留言資料表（電影詳細頁使用）
+        # 留言資料表
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS comments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,10 +30,21 @@ class Database:
             )
         ''')
 
+        # ⭐ 評分資料表
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS ratings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                movie_id TEXT NOT NULL,
+                username TEXT NOT NULL,
+                rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE (movie_id, username)
+            )
+        ''')
+
         self.conn.commit()
 
-    # ========== 使用者相關 ==========
-    # 註冊新使用者
+    # ================== 使用者相關 ==================
     def add_user(self, username, password):
         try:
             self.cursor.execute(
@@ -43,10 +54,8 @@ class Database:
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
-            # username 重複（因為 UNIQUE 限制）
             return False
 
-    # 直接檢查帳號密碼（登入用）
     def check_user(self, username, password):
         self.cursor.execute(
             'SELECT * FROM users WHERE username=? AND password=?',
@@ -54,7 +63,6 @@ class Database:
         )
         return self.cursor.fetchone()
 
-    # 只用帳號搜尋（判斷帳號是否存在）
     def get_user_by_username(self, username):
         self.cursor.execute(
             'SELECT * FROM users WHERE username=?',
@@ -62,8 +70,7 @@ class Database:
         )
         return self.cursor.fetchone()
 
-    # ========== 留言相關 ==========
-    # 新增留言
+    # ================== 留言相關 ==================
     def add_comment(self, movie_id, username, comment):
         self.cursor.execute(
             'INSERT INTO comments (movie_id, username, comment) VALUES (?, ?, ?)',
@@ -71,10 +78,34 @@ class Database:
         )
         self.conn.commit()
 
-    # 取得某部電影的所有留言
     def get_comments(self, movie_id):
         self.cursor.execute(
             'SELECT * FROM comments WHERE movie_id = ? ORDER BY timestamp DESC',
             (movie_id,)
         )
         return self.cursor.fetchall()
+
+    # ================== 評分相關 ==================
+    # 新增或更新評分（同一使用者對同一電影只會有一筆）
+    def add_or_update_rating(self, movie_id, username, rating):
+        self.cursor.execute(
+            '''
+            INSERT INTO ratings (movie_id, username, rating)
+            VALUES (?, ?, ?)
+            ON CONFLICT(movie_id, username)
+            DO UPDATE SET rating = excluded.rating
+            ''',
+            (movie_id, username, rating)
+        )
+        self.conn.commit()
+
+    # 取得某部電影的平均評分
+    def get_average_rating(self, movie_id):
+        self.cursor.execute(
+            'SELECT AVG(rating) AS avg_rating FROM ratings WHERE movie_id = ?',
+            (movie_id,)
+        )
+        row = self.cursor.fetchone()
+        if row['avg_rating'] is None:
+            return None
+        return round(row['avg_rating'], 1)

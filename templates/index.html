@@ -89,8 +89,10 @@
         </div>
         
         <div class="movie-item">
-            <img src="{{ url_for('static', filename='movies/interstellar.jpg') }}" alt="星際效應">
+            <a href="{{ url_for('interstellar') }}">
+                <img src="{{ url_for('static', filename='movies/interstellar.jpg') }}" alt="星際效應">
             <p>星際效應</p>
+            </a>
         </div>
 
         <div class="movie-item">

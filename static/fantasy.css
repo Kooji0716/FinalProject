@@ -54,3 +54,30 @@
     margin-bottom: 12px;
     border-radius: 5px;
 }
+
+/* === 評分區 === */
+.got-rating {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed #aaa;
+}
+
+.avg-rating {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.rating-stars {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    user-select: none;
+}
+
+.rating-stars .star:hover,
+.rating-stars .star.hovered,
+.rating-stars .star.selected {
+    color: gold;
+    transition: color 0.2s ease-in-out;
+}
