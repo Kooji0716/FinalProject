@@ -22,30 +22,27 @@
 
 {% block content %}
 <div class="got-container">
+    <h1 class="got-title">怪奇物語</h1>
 
-    <h1 class="got-title">冰與火之歌：權力遊戲</h1>
-
-    <!-- 上半部：海報 + 資訊 -->
     <div class="got-main">
         <img class="got-poster"
-             src="{{ url_for('static', filename='movies/GOT.jpg') }}"
-             alt="冰與火之歌：權力遊戲">
+             src="{{ url_for('static', filename='movies/strangerthings.jpg') }}"
+             alt="怪奇物語">
 
         <div class="got-details">
-            <p><strong>類型：</strong>奇幻 / 劇情 / 冒險</p>
-            <p><strong>年份：</strong>2011 - 2019</p>
-            <p><strong>導演：</strong>David Benioff, D. B. Weiss</p>
-            <p><strong>主演：</strong>Kit Harington, Emilia Clarke, Peter Dinklage 等</p>
+            <p><strong>類型：</strong>科幻 / 驚悚 / 青春</p>
+            <p><strong>年份：</strong>2016 - 現在</p>
+            <p><strong>導演：</strong>Duffer Brothers</p>
+            <p><strong>主演：</strong>Millie Bobby Brown, Finn Wolfhard, Winona Ryder 等</p>
             <p><strong>簡介：</strong></p>
             <p>
-                《冰與火之歌：權力遊戲》改編自喬治·R·R·馬丁的奇幻小說《冰與火之歌》，
-                描述維斯特洛大陸上幾大家族間的權力鬥爭、政治陰謀與魔法再臨，
-                展現了人性、忠誠與背叛的深刻交織。
+                一名男孩在印第安納州霍金斯小鎮神秘失蹤後，
+                他的家人和朋友展開尋找行動，卻意外揭開了政府秘密實驗、
+                超能力女孩以及「顛倒世界」的驚人真相。
             </p>
         </div>
     </div>
 
-    <!-- 評分區 -->
     <div class="got-rating">
         <h2>⭐ 評分</h2>
         <div class="avg-rating">
@@ -72,7 +69,6 @@
         {% endif %}
     </div>
 
-    <!-- 留言區 -->
     <div class="got-comments">
         <h2>影迷討論</h2>
 
@@ -94,7 +90,6 @@
                     <pre class="comment-content" style="font-family: monospace; white-space: pre-wrap;">
                     {{- c['comment'] -}}
                     </pre>
-
                     <small class="comment-time">{{ c['timestamp'] }}</small>
                 </li>
             {% else %}

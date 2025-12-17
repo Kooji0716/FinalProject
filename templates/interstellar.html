@@ -90,7 +90,9 @@
             {% for c in comments %}
                 <li class="comment-item">
                     <strong>{{ c['username'] }}</strong> 說：<br>
-                    <div class="comment-content">{{ c['comment'] }}</div>
+                    <pre class="comment-content" style="font-family: monospace; white-space: pre-wrap;">
+                    {{- c['comment'] -}}
+                    </pre>
                     <small class="comment-time">{{ c['timestamp'] }}</small>
                 </li>
             {% else %}
@@ -102,12 +104,14 @@
 {% endblock %}
 
 {% block extra_js %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating-input');
     let selected = 0;
 
+//先取得目前滑到第幾顆星（例如：第 3 顆）再把「小於等於這個值」的所有星星加上 hovered class（變成黃色)
     stars.forEach(star => {
         star.addEventListener('mouseover', () => {
             const val = parseInt(star.dataset.value);

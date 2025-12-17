@@ -4,13 +4,17 @@ import sqlite3
 class Database:
     def __init__(self, db_path="users.db"):
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row   # 讓資料可以用 dict 方式存取
+        self.conn.row_factory = sqlite3.Row
         self.cursor = self.conn.cursor()
+        self.enable_foreign_keys()
         self.init_tables()
+
+    def enable_foreign_keys(self):
+        # ✅ 啟用 SQLite 的外鍵支援
+        self.cursor.execute('PRAGMA foreign_keys = ON')
 
     # ================== 初始化資料表 ==================
     def init_tables(self):
-        # 使用者資料表
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +23,6 @@ class Database:
             )
         ''')
 
-        # 留言資料表
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS comments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +33,6 @@ class Database:
             )
         ''')
 
-        # ⭐ 評分資料表
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS ratings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,25 +43,25 @@ class Database:
                 UNIQUE (movie_id, username)
             )
         ''')
-        
-        #社群貼文
+
         self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS community_posts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL,
-            title TEXT NOT NULL,
-            content TEXT NOT NULL,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            CREATE TABLE IF NOT EXISTS community_posts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
-        # 社群貼文留言資料表（每篇文章可以有很多留言）
+
         self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS community_comments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            post_id INTEGER NOT NULL,
-            username TEXT NOT NULL,
-            comment TEXT NOT NULL,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            CREATE TABLE IF NOT EXISTS community_comments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                post_id INTEGER NOT NULL,
+                username TEXT NOT NULL,
+                comment TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (post_id) REFERENCES community_posts(id) ON DELETE CASCADE
             )
         ''')
 
@@ -105,8 +107,7 @@ class Database:
             (movie_id,)
         )
         return self.cursor.fetchall()
-    
-        # 新增社群留言功能
+
     def add_community_comment(self, post_id, username, comment):
         self.cursor.execute(
             'INSERT INTO community_comments (post_id, username, comment) VALUES (?, ?, ?)',
@@ -114,7 +115,6 @@ class Database:
         )
         self.conn.commit()
 
-    # 根據貼文 ID 取得所有留言
     def get_community_comments(self, post_id):
         self.cursor.execute(
             'SELECT * FROM community_comments WHERE post_id = ? ORDER BY timestamp ASC',
@@ -122,11 +122,7 @@ class Database:
         )
         return self.cursor.fetchall()
 
-    
-    
-
     # ================== 評分相關 ==================
-    # 新增或更新評分（同一使用者對同一電影只會有一筆）
     def add_or_update_rating(self, movie_id, username, rating):
         self.cursor.execute(
             '''
@@ -139,7 +135,6 @@ class Database:
         )
         self.conn.commit()
 
-    # 取得某部電影的平均評分
     def get_average_rating(self, movie_id):
         self.cursor.execute(
             'SELECT AVG(rating) AS avg_rating FROM ratings WHERE movie_id = ?',
@@ -149,8 +144,8 @@ class Database:
         if row['avg_rating'] is None:
             return None
         return round(row['avg_rating'], 1)
-    
-    #操作貼文的涵式
+
+    # ================== 貼文操作 ==================
     def add_community_post(self, username, title, content):
         self.cursor.execute(
             'INSERT INTO community_posts (username, title, content) VALUES (?, ?, ?)',
@@ -164,3 +159,15 @@ class Database:
         )
         return self.cursor.fetchall()
 
+    def delete_community_post(self, post_id):
+        self.cursor.execute(
+            'DELETE FROM community_posts WHERE id = ?',
+            (post_id,)
+        )
+        self.conn.commit()
+    def get_post_by_id(self, post_id):
+        self.cursor.execute(
+            'SELECT * FROM community_posts WHERE id = ?',
+            (post_id,)
+        )
+        return self.cursor.fetchone()

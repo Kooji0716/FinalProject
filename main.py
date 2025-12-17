@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from database import Database
 
 app = Flask(__name__)
@@ -173,6 +173,21 @@ def community_post(post_id):
 
     return render_template(
         "community_post.html",post=post, comments=comments)
+    
+#刪除留言按鈕
+@app.route('/delete_community_post/<int:post_id>', methods=['POST'])
+def delete_community_post(post_id):
+    post = db.get_post_by_id(post_id)
+    if not post:
+        abort(404)
+
+    if session.get('username') != post['username']:
+        abort(403)
+
+    db.delete_community_post(post_id)
+    return redirect(url_for('community'))
+
+
 
 
 # ======================
@@ -247,6 +262,120 @@ def interstellar():
         comments=comments,
         avg_rating=avg_rating
     )
+
+# ======================
+# 電影詳細頁：追愛總動員（How I Met Your Mother）
+# ======================
+@app.route('/himym', methods=['GET', 'POST'])
+def himym():
+    movie_id = 'himym'
+
+    if request.method == 'POST':
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("尚未登入，登入後即可留言與評分！");
+                    window.location.href = "/login";
+                </script>
+            '''
+
+        username = session['username']
+        comment = request.form.get('comment')
+        rating = request.form.get('rating')
+
+        if comment:
+            db.add_comment(movie_id, username, comment)
+
+        if rating:
+            try:
+                rating = int(rating)
+                db.add_or_update_rating(movie_id, username, rating)
+            except ValueError:
+                pass  # rating 不是整數就略過
+
+        return redirect(url_for('himym'))
+
+    comments = db.get_comments(movie_id)
+    avg_rating = db.get_average_rating(movie_id)
+
+    return render_template('himym.html', comments=comments, avg_rating=avg_rating)
+#在黑暗中說的鬼故事
+@app.route('/scary_stories', methods=['GET', 'POST'])
+def scary_stories():
+    movie_id = 'scary_stories'
+
+    if request.method == 'POST':
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("尚未登入，登入後即可留言與評分！");
+                    window.location.href = "/login";
+                </script>
+            '''
+
+        username = session['username']
+        comment = request.form.get('comment')
+        rating = request.form.get('rating')
+
+        if comment:
+            db.add_comment(movie_id, username, comment)
+
+        if rating:
+            try:
+                db.add_or_update_rating(movie_id, username, int(rating))
+            except ValueError:
+                pass
+
+        return redirect(url_for('scary_stories'))
+
+    comments = db.get_comments(movie_id)
+    avg_rating = db.get_average_rating(movie_id)
+
+    return render_template(
+        'scary_stories.html',
+        comments=comments,
+        avg_rating=avg_rating
+    )
+
+
+#怪奇物語
+@app.route('/stranger_things', methods=['GET', 'POST'])
+def stranger_things():
+    movie_id = 'stranger_things'
+
+    if request.method == 'POST':
+        if 'username' not in session:
+            return '''
+                <script>
+                    alert("尚未登入，登入後即可留言與評分！");
+                    window.location.href = "/login";
+                </script>
+            '''
+
+        username = session['username']
+        comment = request.form.get('comment')
+        rating = request.form.get('rating')
+
+        if comment:
+            db.add_comment(movie_id, username, comment)
+
+        if rating:
+            try:
+                db.add_or_update_rating(movie_id, username, int(rating))
+            except ValueError:
+                pass
+
+        return redirect(url_for('stranger_things'))
+
+    comments = db.get_comments(movie_id)
+    avg_rating = db.get_average_rating(movie_id)
+
+    return render_template(
+        'stranger_things.html',
+        comments=comments,
+        avg_rating=avg_rating
+    )
+
 
 
 # ======================

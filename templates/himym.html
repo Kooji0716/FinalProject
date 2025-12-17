@@ -23,24 +23,23 @@
 {% block content %}
 <div class="got-container">
 
-    <h1 class="got-title">冰與火之歌：權力遊戲</h1>
+    <h1 class="got-title">追愛總動員（How I Met Your Mother）</h1>
 
     <!-- 上半部：海報 + 資訊 -->
     <div class="got-main">
         <img class="got-poster"
-             src="{{ url_for('static', filename='movies/GOT.jpg') }}"
-             alt="冰與火之歌：權力遊戲">
+             src="{{ url_for('static', filename='movies/himym.jpg') }}"
+             alt="追愛總動員">
 
         <div class="got-details">
-            <p><strong>類型：</strong>奇幻 / 劇情 / 冒險</p>
-            <p><strong>年份：</strong>2011 - 2019</p>
-            <p><strong>導演：</strong>David Benioff, D. B. Weiss</p>
-            <p><strong>主演：</strong>Kit Harington, Emilia Clarke, Peter Dinklage 等</p>
+            <p><strong>類型：</strong>情境喜劇 / 愛情 / 劇情</p>
+            <p><strong>年份：</strong>2005 - 2014</p>
+            <p><strong>創作者：</strong>Carter Bays、Craig Thomas</p>
+            <p><strong>主演：</strong>Josh Radnor, Jason Segel, Cobie Smulders, Neil Patrick Harris, Alyson Hannigan</p>
             <p><strong>簡介：</strong></p>
             <p>
-                《冰與火之歌：權力遊戲》改編自喬治·R·R·馬丁的奇幻小說《冰與火之歌》，
-                描述維斯特洛大陸上幾大家族間的權力鬥爭、政治陰謀與魔法再臨，
-                展現了人性、忠誠與背叛的深刻交織。
+                《追愛總動員》是一部美國情境喜劇，描述主角 Ted Mosby 向孩子們講述他是如何遇見他們母親的故事。
+                劇情穿插友情、愛情與生活的點滴，並以幽默與感性兼具的方式描繪紐約五人幫的成長歷程。
             </p>
         </div>
     </div>
@@ -78,7 +77,7 @@
 
         {% if session.get('username') %}
             <form method="POST" class="comment-form">
-                <textarea name="comment" rows="4" style="width: 100%;" placeholder="歡迎留下你對這部影集的看法！" required></textarea>
+                <textarea name="comment" rows="4" style="width: 100%;" placeholder="歡迎分享你對這部影集的看法！" required></textarea>
                 <button type="submit">送出留言</button>
             </form>
         {% else %}
@@ -94,7 +93,6 @@
                     <pre class="comment-content" style="font-family: monospace; white-space: pre-wrap;">
                     {{- c['comment'] -}}
                     </pre>
-
                     <small class="comment-time">{{ c['timestamp'] }}</small>
                 </li>
             {% else %}
