@@ -171,3 +171,10 @@ class Database:
             (post_id,)
         )
         return self.cursor.fetchone()
+    
+    def get_user_rating(self, movie_id, username):
+        self.cursor.execute(
+            'SELECT rating FROM ratings WHERE movie_id = ? AND username = ?',
+            (movie_id, username)
+        )
+        return self.cursor.fetchone()

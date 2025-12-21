@@ -105,8 +105,21 @@
 document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating-input');
-    let selected = 0;
 
+    // ⭐ 從 Flask 傳進來的使用者評分
+    let selected = {{ user_rating or 0 }};
+
+    // ===== 頁面初始化：顯示使用者已評的星星 =====
+    if (selected > 0) {
+        ratingInput.value = selected;
+        stars.forEach(s => {
+            if (parseInt(s.dataset.value) <= selected) {
+                s.classList.add('selected');
+            }
+        });
+    }
+
+    // ===== 滑鼠移動效果 =====
     stars.forEach(star => {
         star.addEventListener('mouseover', () => {
             const val = parseInt(star.dataset.value);
@@ -118,13 +131,18 @@ document.addEventListener('DOMContentLoaded', function () {
         star.addEventListener('mouseout', () => {
             stars.forEach(s => {
                 s.classList.remove('hovered');
-                s.classList.toggle('selected', parseInt(s.dataset.value) <= selected);
+                s.classList.toggle(
+                    'selected',
+                    parseInt(s.dataset.value) <= selected
+                );
             });
         });
 
+        // ===== 點擊選星 =====
         star.addEventListener('click', () => {
             selected = parseInt(star.dataset.value);
             ratingInput.value = selected;
+
             stars.forEach(s => {
                 s.classList.remove('selected');
                 if (parseInt(s.dataset.value) <= selected) {
@@ -135,4 +153,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 {% endblock %}

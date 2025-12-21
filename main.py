@@ -226,7 +226,19 @@ def got():
     comments = db.get_comments(movie_id)
     avg_rating = db.get_average_rating(movie_id)
 
-    return render_template('GOT.html', comments=comments, avg_rating=avg_rating)
+    user_rating = None
+    if 'username' in session:
+        row = db.get_user_rating(movie_id, session['username'])
+        if row:
+            user_rating = row['rating']
+
+    return render_template(
+        'GOT.html',
+        comments=comments,
+        avg_rating=avg_rating,
+        user_rating=user_rating
+)
+
 
 #星際校應路由
 @app.route('/interstellar', methods=['GET', 'POST'])
@@ -250,18 +262,29 @@ def interstellar():
             db.add_comment(movie_id, username, comment)
 
         if rating:
-            db.add_or_update_rating(movie_id, username, int(rating))
+            try:
+                db.add_or_update_rating(movie_id, username, int(rating))
+            except ValueError:
+                pass
 
         return redirect(url_for('interstellar'))
 
     comments = db.get_comments(movie_id)
     avg_rating = db.get_average_rating(movie_id)
 
+    user_rating = None
+    if 'username' in session:
+        row = db.get_user_rating(movie_id, session['username'])
+        if row:
+            user_rating = row['rating']
+
     return render_template(
         'interstellar.html',
         comments=comments,
-        avg_rating=avg_rating
+        avg_rating=avg_rating,
+        user_rating=user_rating
     )
+
 
 # ======================
 # 電影詳細頁：追愛總動員（How I Met Your Mother）
@@ -288,17 +311,28 @@ def himym():
 
         if rating:
             try:
-                rating = int(rating)
-                db.add_or_update_rating(movie_id, username, rating)
+                db.add_or_update_rating(movie_id, username, int(rating))
             except ValueError:
-                pass  # rating 不是整數就略過
+                pass
 
         return redirect(url_for('himym'))
 
     comments = db.get_comments(movie_id)
     avg_rating = db.get_average_rating(movie_id)
 
-    return render_template('himym.html', comments=comments, avg_rating=avg_rating)
+    user_rating = None
+    if 'username' in session:
+        row = db.get_user_rating(movie_id, session['username'])
+        if row:
+            user_rating = row['rating']
+
+    return render_template(
+        'himym.html',
+        comments=comments,
+        avg_rating=avg_rating,
+        user_rating=user_rating
+    )
+
 #在黑暗中說的鬼故事
 @app.route('/scary_stories', methods=['GET', 'POST'])
 def scary_stories():
@@ -331,11 +365,19 @@ def scary_stories():
     comments = db.get_comments(movie_id)
     avg_rating = db.get_average_rating(movie_id)
 
+    user_rating = None
+    if 'username' in session:
+        row = db.get_user_rating(movie_id, session['username'])
+        if row:
+            user_rating = row['rating']
+
     return render_template(
         'scary_stories.html',
         comments=comments,
-        avg_rating=avg_rating
+        avg_rating=avg_rating,
+        user_rating=user_rating
     )
+
 
 
 #怪奇物語
@@ -370,11 +412,19 @@ def stranger_things():
     comments = db.get_comments(movie_id)
     avg_rating = db.get_average_rating(movie_id)
 
+    user_rating = None
+    if 'username' in session:
+        row = db.get_user_rating(movie_id, session['username'])
+        if row:
+            user_rating = row['rating']
+
     return render_template(
         'stranger_things.html',
         comments=comments,
-        avg_rating=avg_rating
+        avg_rating=avg_rating,
+        user_rating=user_rating
     )
+
 
 
 

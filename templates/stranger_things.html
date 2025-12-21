@@ -105,8 +105,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating-input');
-    let selected = 0;
+    let selected = {{ user_rating or 0 }};  // 將 user_rating 傳進 JS
 
+    // 初始化：亮起使用者原本選的星星
+    if (selected > 0) {
+        ratingInput.value = selected;
+        stars.forEach(s => {
+            if (parseInt(s.dataset.value) <= selected) {
+                s.classList.add('selected');
+            }
+        });
+    }
+
+    // 滑過星星的效果
     stars.forEach(star => {
         star.addEventListener('mouseover', () => {
             const val = parseInt(star.dataset.value);
@@ -135,4 +146,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 {% endblock %}
